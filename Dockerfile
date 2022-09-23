@@ -1,19 +1,26 @@
-FROM registry.redhat.io/ubi7/python-36:latest
-USER root
+FROM registry.fedoraproject.org/fedora:33
 LABEL name="art-dash" \
   description="art-dash container image" \
   maintainer="OpenShift Automated Release Tooling (ART) Team <aos-team-art@redhat.com>"
 
-RUN yum -y --setopt skip_missing_names_on_install=False \
-    install krb5-workstation git rsync \
+# the build will need to run inside the firewall to access internal resources.
+# install Red Hat IT Root CA and RCM repos
+RUN curl -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt --fail -L \
+    https://password.corp.redhat.com/RH-IT-Root-CA.crt \
+ && update-ca-trust extract \
+ && curl -o /etc/yum.repos.d/rcm-tools-fedora.repo https://download.devel.redhat.com/rel-eng/RCMTOOLS/rcm-tools-fedora.repo \
+ && dnf install -y \
+    # runtime dependencies
+    krb5-workstation git rsync \
+    python3.6 python3-certifi python3-rpm python3-rhmsg \
     # development dependencies
-    gcc krb5-devel \
+    gcc krb5-devel python3-devel python3-pip \
     # other tools
     bash-completion vim tmux wget curl iputils procps-ng psmisc net-tools iproute \
     # install brewkoji
     koji brewkoji \
     mariadb-connector-c-devel openssl-devel \
- && yum clean all
+ && dnf clean all
 
 ARG OC_VERSION=candidate
 # include oc client
@@ -65,4 +72,5 @@ RUN cp -r /tmp/art-dash/umb . \
  && rm -rf /tmp/art-dash
 USER "$USER_UID"
 EXPOSE 8080
-CMD ["./start-cmd.sh"]
+RUN python manage.py migrate
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
