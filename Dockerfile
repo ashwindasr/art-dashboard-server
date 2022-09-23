@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:36
+FROM registry.fedoraproject.org/fedora:33
 USER root
 LABEL name="art-dash" \
   description="art-dash container image" \
@@ -10,7 +10,7 @@ RUN curl -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt --fail -L \
     https://password.corp.redhat.com/RH-IT-Root-CA.crt \
  && update-ca-trust extract \
  && curl -o /etc/yum.repos.d/rcm-tools-fedora.repo https://download.devel.redhat.com/rel-eng/RCMTOOLS/rcm-tools-fedora.repo \
- && dnf install -y \
+ && yum install -y \
     # runtime dependencies
     krb5-workstation git rsync \
     python3.6 python3-certifi python3-rpm python3-rhmsg \
@@ -21,7 +21,7 @@ RUN curl -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt --fail -L \
     # install brewkoji
     koji brewkoji \
     mariadb-connector-c-devel openssl-devel \
- && dnf clean all
+ && yum clean all
 
 ARG OC_VERSION=candidate
 # include oc client
