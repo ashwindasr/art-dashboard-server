@@ -72,6 +72,3 @@ RUN cp -r /tmp/art-dash/umb . \
  && rm -rf /tmp/art-dash
 USER "$USER_UID"
 EXPOSE 8080
-CMD ["python", "manage.py", "makemigrations"]
-CMD ["python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]

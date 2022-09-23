@@ -1,4 +1,5 @@
 FROM art-dashboard-server:base
 COPY . .
-RUN python manage.py migrate
+CMD ["python", "manage.py", "makemigrations"]
+CMD ["python", "manage.py", "migrate"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
