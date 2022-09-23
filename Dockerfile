@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:33
+FROM registry.redhat.io/ubi7/python-36:latest
 USER root
 LABEL name="art-dash" \
   description="art-dash container image" \
@@ -13,9 +13,8 @@ RUN curl -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt --fail -L \
  && yum install -y \
     # runtime dependencies
     krb5-workstation git rsync \
-    python3.6 python3-certifi python3-rpm python3-rhmsg \
     # development dependencies
-    gcc krb5-devel python3-devel python3-pip \
+    gcc krb5-devel \
     # other tools
     bash-completion vim tmux wget curl iputils procps-ng psmisc net-tools iproute \
     # install brewkoji
