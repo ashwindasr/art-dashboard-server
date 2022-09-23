@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:33
+FROM registry.fedoraproject.org/fedora:36
 USER root
 LABEL name="art-dash" \
   description="art-dash container image" \
