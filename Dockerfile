@@ -5,7 +5,7 @@ LABEL name="art-dash" \
   maintainer="OpenShift Automated Release Tooling (ART) Team <aos-team-art@redhat.com>"
 
 RUN yum -y --setopt skip_missing_names_on_install=False \
-    krb5-workstation git rsync \
+    install krb5-workstation git rsync \
     # development dependencies
     gcc krb5-devel \
     # other tools
