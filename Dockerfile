@@ -4,14 +4,7 @@ LABEL name="art-dash" \
   description="art-dash container image" \
   maintainer="OpenShift Automated Release Tooling (ART) Team <aos-team-art@redhat.com>"
 
-# the build will need to run inside the firewall to access internal resources.
-# install Red Hat IT Root CA and RCM repos
-RUN curl -o /etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt --fail -L \
-    https://password.corp.redhat.com/RH-IT-Root-CA.crt \
- && update-ca-trust extract \
- && curl -o /etc/yum.repos.d/rcm-tools-fedora.repo https://download.devel.redhat.com/rel-eng/RCMTOOLS/rcm-tools-fedora.repo \
- && yum install -y \
-    # runtime dependencies
+RUN yum -y --setopt skip_missing_names_on_install=False \
     krb5-workstation git rsync \
     # development dependencies
     gcc krb5-devel \
