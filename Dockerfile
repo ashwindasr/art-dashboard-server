@@ -1,4 +1,5 @@
 FROM registry.fedoraproject.org/fedora:33
+USER root
 LABEL name="art-dash" \
   description="art-dash container image" \
   maintainer="OpenShift Automated Release Tooling (ART) Team <aos-team-art@redhat.com>"
