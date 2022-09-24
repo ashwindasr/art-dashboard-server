@@ -1,5 +1,5 @@
-FROM art-dash-server:base
-
+FROM art-dashboard-server:base
+COPY . .
 
 # This build is meant to be based on an existing build and
 # update just doozer, elliott, and art-bot.
