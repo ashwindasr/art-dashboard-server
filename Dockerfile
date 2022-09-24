@@ -63,10 +63,10 @@ RUN umask a+rx && pip3 install --upgrade \
 
 # install art-dash and default configs
 COPY conf/krb5-redhat.conf /etc/krb5.conf
+COPY . /workspaces/art-dash
 COPY . /tmp/art-dash
 USER 0
-RUN cp -r /tmp/art-dash/umb . \
- && cp /tmp/art-dash/container/doozer-settings.yaml /home/"$USERNAME"/.config/doozer/settings.yaml \
+RUN cp /tmp/art-dash/container/doozer-settings.yaml /home/"$USERNAME"/.config/doozer/settings.yaml \
  && cp /tmp/art-dash/container/elliott-settings.yaml /home/"$USERNAME"/.config/elliott/settings.yaml \
 # && cp /tmp/art-dash/settings.yaml /home/"$USERNAME"/.config/art-dash/settings.yaml \
  && rm -rf /tmp/art-dash
