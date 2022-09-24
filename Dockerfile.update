@@ -1,3 +1,2 @@
 FROM art-dashboard-server:base
 COPY . .
-RUN python3 manage.py migrate
