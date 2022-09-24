@@ -72,3 +72,5 @@ RUN cp -r /tmp/art-dash/umb . \
  && rm -rf /tmp/art-dash
 EXPOSE 8080
 USER "$USER_UID"
+CMD ["python3", "manage.py", "makemigrations"]
+CMD ["python3", "manage.py", "migrate"]
