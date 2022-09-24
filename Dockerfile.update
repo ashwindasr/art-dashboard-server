@@ -1,5 +1,4 @@
 FROM art-dash-server:base
-COPY . .
 
 # This build is meant to be based on an existing build and
 # update just doozer, elliott, and art-bot.
@@ -9,6 +8,12 @@ ARG USERNAME=dev
 # On Linux, replace with your actual UID, GID if not the default 1000
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+
+
+USER 0
+COPY . .
+
+
 
 USER "$USER_UID"
 CMD ["python3", "manage.py", "makemigrations"]
