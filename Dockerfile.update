@@ -1,4 +1,4 @@
-FROM art-dashboard-server:base
+FROM art-dash-server:base
 
 
 # This build is meant to be based on an existing build and
@@ -11,5 +11,6 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 USER "$USER_UID"
-RUN python3 manage.py migrate
+CMD ["python3", "manage.py", "makemigrations"]
+CMD ["python3", "manage.py", "migrate"]
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
