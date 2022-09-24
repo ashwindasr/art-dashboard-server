@@ -70,5 +70,5 @@ RUN cp -r /tmp/art-dash/umb . \
  && cp /tmp/art-dash/container/elliott-settings.yaml /home/"$USERNAME"/.config/elliott/settings.yaml \
 # && cp /tmp/art-dash/settings.yaml /home/"$USERNAME"/.config/art-dash/settings.yaml \
  && rm -rf /tmp/art-dash
-USER "$USER_UID"
 EXPOSE 8080
+USER "$USER_UID"
