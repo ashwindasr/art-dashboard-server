@@ -1,4 +1,4 @@
-FROM art-dashboard-server:base
+FROM art-dash-server:base
 COPY . .
 
 # This build is meant to be based on an existing build and
