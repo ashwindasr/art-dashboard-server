@@ -55,8 +55,10 @@ WORKDIR /workspaces/art-dash
 
 # install dependencies (allow even openshift's random user to see)
 ENV PATH=/home/"$USERNAME"/.local/bin:/home/"$USERNAME"/bin:"$PATH"
-COPY requirements.txt ./
-RUN umask a+rx && pip3 install --upgrade \
+
+COPY --chown="$USERNAME":"$USERNAME" requirements.txt ./
+#COPY requirements.txt ./
+RUN umask a+rx && pip3 install --user --upgrade \
     git+https://github.com/openshift/doozer.git#egg=rh-doozer \
     git+https://github.com/openshift/elliott.git#egg=rh-elliott \
     -r ./requirements.txt
