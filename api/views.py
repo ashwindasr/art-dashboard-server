@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from api.image_pipeline import pipeline_image_names
 from api.pr_in import nightly as nighlty_main
 import json
-
+import os
 
 class BuildViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -100,3 +100,11 @@ def pr_in_nightly(request):
                               }, 400
 
     return Response(result, status=status_code)
+
+
+@api_view(['GET'])
+def test(request):
+
+    return Response({
+        'data': os.environ["ERRATA_ADVISORY_ENDPOINT"]
+    })
