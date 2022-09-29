@@ -17,11 +17,12 @@ from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+COMMON_ENV_FILE = 'conf/common.env'
 CONF_FILE = 'conf/prod.env'
 
 if "RUN_ENV" in os.environ:
     if os.environ["RUN_ENV"] == "development":
-        CONF_FILE = 'conf/development.env'
+        CONF_FILE = 'conf/dev.env'
     elif os.environ["RUN_ENV"] == "production":
         CONF_FILE = 'conf/prod.env'
     else:
@@ -31,8 +32,8 @@ else:
     print("Run environment missing in environment variables.")
     exit(1)
 
-CONF_FILE_PATH = BASE_DIR + "/" + CONF_FILE
-load_dotenv(CONF_FILE_PATH)
+load_dotenv(f"{BASE_DIR}/{COMMON_ENV_FILE}")
+load_dotenv(f"{BASE_DIR}/{CONF_FILE}")
 
 print(os.environ["ERRATA_ADVISORY_ENDPOINT"])
 
