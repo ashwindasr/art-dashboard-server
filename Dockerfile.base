@@ -29,45 +29,18 @@ RUN wget -O /tmp/openshift-client-linux-"$OC_VERSION".tar.gz https://mirror.open
   && rm /tmp/openshift-client-linux-"$OC_VERSION".tar.gz
 
 
-# Create a non-root user - see https://aka.ms/vscode-remote/containers/non-root-user.
-ARG USERNAME=dev
-# On Linux, replace with your actual UID, GID if not the default 1000
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-# Create the "dev" user
-RUN groupadd --gid "$USER_GID" "$USERNAME" \
- && useradd --uid "$USER_UID" --gid "$USER_GID" -m "$USERNAME" \
- # give access to its files
- && mkdir -p /workspaces/art-dash \
- && mkdir -p /workspaces/{elliott,doozer}{,-working-dir} \
- && mkdir -p /home/"$USERNAME"/.config/{elliott,doozer,art-dash} \
- && mkdir -p /home/"$USERNAME"/.docker \
- && chown -R "${USER_UID}:${USER_GID}" /home/"$USERNAME" /workspaces \
- && chmod -R 0755 /home/"$USERNAME" \
- && chmod -R 0777 /workspaces \
- # and allow it passwordless sudo
- && echo "$USERNAME" ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/"$USERNAME" \
- && chmod 0440 /etc/sudoers.d/"$USERNAME"
-
-USER "$USER_UID"
-WORKDIR /workspaces/art-dash
-
 USER 0
-# install dependencies (allow even openshift's random user to see)
-ENV PATH=/home/"$USERNAME"/.local/bin:/home/"$USERNAME"/bin:"$PATH"
 COPY requirements.txt ./
 RUN umask a+rx && pip3 install --upgrade \
     git+https://github.com/openshift/doozer.git#egg=rh-doozer \
     git+https://github.com/openshift/elliott.git#egg=rh-elliott \
     -r ./requirements.txt
 
-# install art-dash and default configs
-COPY conf/krb5-redhat.conf /etc/krb5.conf
+RUN mkdir -p /root/.config/doozer
 COPY . /tmp/art-dash
 RUN cp -r /tmp/art-dash/umb . \
- && cp /tmp/art-dash/container/doozer-settings.yaml /home/"$USERNAME"/.config/doozer/settings.yaml \
- && cp /tmp/art-dash/container/elliott-settings.yaml /home/"$USERNAME"/.config/elliott/settings.yaml \
+ && cp /tmp/art-dash/container/doozer-settings.yaml /root/.config/doozer/settings.yaml \
  && rm -rf /tmp/art-dash
-EXPOSE 8080
-USER "$USER_UID"
+
+# install art-dash and default configs
+COPY conf/krb5-redhat.conf /etc/krb5.conf
