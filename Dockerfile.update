@@ -24,11 +24,11 @@ RUN umask a+rx && pip3 install --upgrade \
 COPY conf/krb5-redhat.conf /etc/krb5.conf
 COPY . /tmp/art-dash
 RUN cp /tmp/art-dash/container/doozer-settings.yaml /home/"$USERNAME"/.config/doozer/settings.yaml \
+ && cp /tmp/art-dash/container/elliott-settings.yaml /home/"$USERNAME"/.config/elliott/settings.yaml \
  && rm -rf /tmp/art-dash
 
 USER "$USER_UID"
 CMD ["python3", "manage.py", "makemigrations"]
 CMD ["python3", "manage.py", "migrate"]
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
-
 
