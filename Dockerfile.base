@@ -40,8 +40,8 @@ RUN groupadd --gid "$USER_GID" "$USERNAME" \
  && useradd --uid "$USER_UID" --gid "$USER_GID" -m "$USERNAME" \
  # give access to its files
  && mkdir -p /workspaces/art-dash \
- && mkdir -p /workspaces/{elliott,doozer}{,-working-dir} \
- && mkdir -p /home/"$USERNAME"/.config/{elliott,doozer,art-dash} \
+ && mkdir -p /workspaces/doozer-working-dir \
+ && mkdir -p /home/"$USERNAME"/.config/{doozer,art-dash} \
  && mkdir -p /home/"$USERNAME"/.docker \
  && chown -R "${USER_UID}:${USER_GID}" /home/"$USERNAME" /workspaces \
  && chmod -R 0755 /home/"$USERNAME" \
@@ -68,7 +68,6 @@ COPY conf/krb5-redhat.conf /etc/krb5.conf
 COPY . /tmp/art-dash
 USER 0
 RUN cp /tmp/art-dash/container/doozer-settings.yaml /home/"$USERNAME"/.config/doozer/settings.yaml \
- && cp /tmp/art-dash/container/elliott-settings.yaml /home/"$USERNAME"/.config/elliott/settings.yaml \
  && rm -rf /tmp/art-dash
 EXPOSE 8080
 USER "$USER_UID"
