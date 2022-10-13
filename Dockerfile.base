@@ -41,7 +41,7 @@ RUN groupadd --gid "$USER_GID" "$USERNAME" \
  # give access to its files
  && mkdir -p /workspaces/art-dash \
  && mkdir -p /workspaces/doozer-working-dir \
- && mkdir -p /home/"$USERNAME"/.config/{doozer,art-dash} \
+ && mkdir -p /home/"$USERNAME"/.config/{elliott,doozer,art-dash} \
  && mkdir -p /home/"$USERNAME"/.docker \
  && chown -R "${USER_UID}:${USER_GID}" /home/"$USERNAME" /workspaces \
  && chmod -R 0755 /home/"$USERNAME" \
