@@ -18,10 +18,10 @@ class BuildViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Build.objects.all()
     serializer_class = BuildSerializer
     filter_backends = [DjangoFilterBackend]  # add feature to filter by URL request eg: /v1/builds/?page=2
-    filterset_fields = '__all__'  # so that all columns can be filtered using URL
+    filterset_fields = "__all__"  # so that all columns can be filtered using URL
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def pipeline_from_github_api_endpoint(request):
     """
     Endpoint to get the image pipeline starting from GitHub, distgit, brew, cdn or delivery
@@ -83,7 +83,7 @@ def pipeline_from_github_api_endpoint(request):
     return Response(jsonstr, status=status_code)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def translate_names_view(request):
     name_type = request.query_params.get("name_type", None)
     name = request.query_params.get("name", None)
@@ -102,7 +102,7 @@ def translate_names_view(request):
     return Response(result, status=status_code)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def test(request):
     return Response({
         "status": "success",
