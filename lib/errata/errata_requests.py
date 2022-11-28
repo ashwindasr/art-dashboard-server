@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from requests_kerberos import HTTPKerberosAuth, REQUIRED
+from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 from .decorators import update_keytab
 
 
