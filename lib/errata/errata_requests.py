@@ -17,7 +17,7 @@ def get_advisory_data(advisory_id):
     errata_endpoint = os.environ["ERRATA_ADVISORY_ENDPOINT"]
     errata_endpoint = errata_endpoint.format(advisory_id)
 
-    kerberos_auth = HTTPKerberosAuth(mutual_authentication=REQUIRED, sanitize_mutual_error_response=False)
+    kerberos_auth = HTTPKerberosAuth(mutual_authentication=OPTIONAL, sanitize_mutual_error_response=False)
 
     response = requests.get(errata_endpoint, auth=kerberos_auth, verify=False)
 
@@ -41,7 +41,7 @@ def get_user_data(user_id):
     errata_endpoint = os.environ["ERRATA_USER_ENDPOINT"]
     errata_endpoint = errata_endpoint.format(user_id)
 
-    kerberos_auth = HTTPKerberosAuth(mutual_authentication=REQUIRED, sanitize_mutual_error_response=False)
+    kerberos_auth = HTTPKerberosAuth(mutual_authentication=OPTIONAL, sanitize_mutual_error_response=False)
 
     response = requests.get(errata_endpoint, auth=kerberos_auth, verify=False)
 
