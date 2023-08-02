@@ -170,7 +170,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'https://art-dash.engineering.redhat.com']
+    'https://art-dash.engineering.redhat.com',
+    'http://art-dash-hackspace-martin.apps.artc2023.pc3z.p1.openshiftapps.com']
 
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
