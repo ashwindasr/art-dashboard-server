@@ -1,5 +1,6 @@
 import os
 import requests
+import requests_gssapi
 import json
 from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 from .decorators import update_keytab
@@ -65,6 +66,17 @@ def catch_request_result(url):
         print(e)
         raise e
 
+def catch_pp_request_result(url):
+    try:
+        s = requests.Session()
+        auth = requests_gssapi.HTTPSPNEGOAuth(mutual_authentication=requests_gssapi.OPTIONAL)
+        s.post('https://pp.engineering.redhat.com/oidc/authenticate', auth=auth)
+        response = s.get(url, headers={'Accept': 'application/json'})
+        return json.loads(response.text)
+    except Exception as e:
+        print(e)
+        raise e
+
 
 @update_keytab
 def get_advisory_status_activities(advisory_id):
@@ -79,28 +91,28 @@ def get_advisory_status_activities(advisory_id):
 
 @update_keytab
 def get_advisory_schedule(branch_version):
-    return catch_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/?fields=all_ga_tasks")
+    return catch_pp_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/?fields=all_ga_tasks")
 
 
 @update_keytab
 def get_feature_freeze_schedule(branch_version):
-    return catch_request_result(f"{PP_SERVER}/openshift-{branch_version}/schedule-tasks/?name__regex=Feature+Development+for")
+    return catch_pp_request_result(f"{PP_SERVER}/openshift-{branch_version}/schedule-tasks/?name__regex=Feature+Development+for")
 
 
 @update_keytab
 def get_ga_schedule(branch_version):
-    return catch_request_result(f"{PP_SERVER}/openshift-{branch_version}/schedule-tasks/?name=OpenShift+Container+Platform+GA+Release+Schedule")
+    return catch_pp_request_result(f"{PP_SERVER}/openshift-{branch_version}/schedule-tasks/?name=OpenShift+Container+Platform+GA+Release+Schedule")
 
 
 @update_keytab
 def get_development_cutoff_schedule(branch_version):
-    return catch_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/schedule-tasks/?flags_and__in=dev")
+    return catch_pp_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/schedule-tasks/?flags_and__in=dev")
 
 
 @update_keytab
 def get_ga_schedule_for_release(branch_version, release):
     release = release.split(" ")[0]
-    return catch_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/schedule-tasks/?flags_and__in=ga&search={release}")
+    return catch_pp_request_result(f"{PP_SERVER}/openshift-{branch_version}.z/schedule-tasks/?flags_and__in=ga&search={release}")
 
 
 def format_user_data(user_data):
