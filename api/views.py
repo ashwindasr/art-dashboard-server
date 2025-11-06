@@ -302,7 +302,8 @@ def get_release_prepare_alert(request):
     major, minor = ga_version.split(".")
     releases_need_to_prepare = []
     # loop from ga version to previous until eol release, there is a treak that we look for previous 5 releases, so no need to connect github
-    versions = list(set([f"{major}.{int(minor) - i if int(minor) - i >= 0 else 0}" for i in range(5)]))
+    start_minor = 12
+    versions = [f"{major}.{i}" for i in range(start_minor, int(minor) + 1)]
     for version in versions:
         dev_schedule = get_development_cutoff_schedule(version)
         for release in dev_schedule:
