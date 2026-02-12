@@ -14,7 +14,7 @@ def post_slack_message(message: str, thread_ts: Optional[str] = None, channel: O
 releases_needs_prepare = requests.get("https://art-dash-server-hackspace-ximhan.apps.artc2023.pc3z.p1.openshiftapps.com/api/v1/release_prepare_alert").json()
 if releases_needs_prepare['releases'] != []:
     release_msg = "\n".join(f"• {msg[0]} : {msg[1]}, latest <https://amd64.ocp.releases.ci.openshift.org/releasestream/{msg[2]}.0-0.nightly/release/{msg[3]}|{msg[3]}> is {msg[4]}" for msg in releases_needs_prepare['releases'])
-    post_slack_message(f"We need to prepare the following releases today:\n{release_msg}", thread_ts=None, channel="#team-art")
+    post_slack_message(f"We need to prepare the following releases today:\n{release_msg}", thread_ts=None, channel="#ocp-sustaining-art-collaboration")
 
 
 # check and monitor release advisory status, moved to konflux now
